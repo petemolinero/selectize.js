@@ -1877,7 +1877,9 @@
 				value = hash_key(value);
 	
 				if (self.items.indexOf(value) !== -1) {
-					if (inputMode === 'single') self.close();
+					// Added self.isOpen condition in order to work better with the added
+					// code in the close method.
+					if (inputMode === 'single' && self.isOpen) self.close();
 					return;
 				}
 	
@@ -2164,6 +2166,13 @@
 			self.refreshState();
 	
 			if (trigger) self.trigger('dropdown_close', self.$dropdown);
+			
+			// If no selection is made, default to the first option
+			if (self.settings.mode === 'single' && !self.getValue()) {
+				self.lastQuery = null;
+				self.setTextboxValue('');
+				self.addItem(self.options[Object.keys(self.options)[0]].value);
+			}
 		},
 	
 		/**
