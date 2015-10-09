@@ -2458,6 +2458,9 @@
 				.attr({tabindex: revertSettings.tabindex})
 				.show();
 	
+            // Preserve selection when selectize is destroyed
+            self.$input.find('option[value="' + selected + '"]').prop('selected', true);
+	
 			self.$control_input.removeData('grow');
 			self.$input.removeData('selectize');
 	
